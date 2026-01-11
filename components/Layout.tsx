@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Users, Home, Settings, LogOut, HeartPulse } from 'lucide-react';
+import { Activity, Users, Home, Settings, LogOut, HeartPulse, ShieldCheck } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 interface LayoutProps {
@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { label: 'Residentes', icon: Users, path: '/residents' },
     { label: 'Saúde & Vitas', icon: HeartPulse, path: '/health' },
     { label: 'Atividades', icon: Activity, path: '/activities' },
+    { label: 'Administração', icon: ShieldCheck, path: '/admin' },
   ];
 
   return (

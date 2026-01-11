@@ -3,7 +3,7 @@ import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 import Layout from './components/Layout';
 import ResidentDetail from './components/ResidentDetail';
 import { Resident, DailyLog } from './types';
-import { Users, AlertCircle, Calendar } from 'lucide-react';
+import { Users, AlertCircle, Calendar, Settings, Shield, FileText } from 'lucide-react';
 import { suggestActivities } from './services/geminiService';
 
 // MOCK DATA GENERATORS
@@ -281,6 +281,98 @@ const Activities: React.FC<{ residents: Resident[] }> = ({ residents }) => {
     )
 }
 
+const AdminPanel: React.FC = () => {
+  return (
+    <div className="space-y-6 animate-fade-in">
+      <h1 className="text-2xl font-bold text-slate-800">Painel Administrativo</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* User Management */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+           <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+             <Users size={20} className="text-primary-600" />
+             Gerenciar Equipe
+           </h3>
+           <div className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                 <div>
+                    <p className="font-medium text-slate-800">Enf. Maria Silva</p>
+                    <p className="text-xs text-slate-500">Supervisora • Acesso Total</p>
+                 </div>
+                 <button className="text-sm text-primary-600 font-medium hover:underline">Editar</button>
+              </div>
+               <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                 <div>
+                    <p className="font-medium text-slate-800">Dr. Roberto Santos</p>
+                    <p className="text-xs text-slate-500">Médico • Acesso Saúde</p>
+                 </div>
+                 <button className="text-sm text-primary-600 font-medium hover:underline">Editar</button>
+              </div>
+              <button className="w-full py-2 border border-dashed border-slate-300 rounded-lg text-slate-500 text-sm hover:bg-slate-50 hover:text-slate-700 transition-colors">
+                + Adicionar Membro
+              </button>
+           </div>
+        </div>
+
+        {/* System Settings */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+             <Settings size={20} className="text-primary-600" />
+             Configurações do Sistema
+           </h3>
+           <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                 <span className="text-slate-700">Notificações por E-mail</span>
+                 <div className="w-10 h-6 bg-primary-500 rounded-full relative cursor-pointer">
+                    <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                 </div>
+              </div>
+              <div className="flex items-center justify-between">
+                 <span className="text-slate-700">Backup Automático (Diário)</span>
+                 <div className="w-10 h-6 bg-primary-500 rounded-full relative cursor-pointer">
+                    <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                 </div>
+              </div>
+               <div className="pt-4 border-t border-slate-100">
+                  <p className="text-sm text-slate-500 mb-2">Chave API (Gemini)</p>
+                  <input type="password" value="************************" disabled className="w-full bg-slate-50 border border-slate-200 rounded px-3 py-2 text-sm text-slate-500" />
+               </div>
+           </div>
+        </div>
+
+        {/* Audit Log / Reports */}
+        <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+             <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+             <FileText size={20} className="text-primary-600" />
+             Logs de Auditoria
+           </h3>
+           <table className="w-full text-left text-sm">
+                <thead className="bg-slate-50 text-slate-600">
+                    <tr>
+                        <th className="px-4 py-2">Usuário</th>
+                        <th className="px-4 py-2">Ação</th>
+                        <th className="px-4 py-2">Data</th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                    <tr>
+                        <td className="px-4 py-2">Enf. Maria Silva</td>
+                        <td className="px-4 py-2">Adicionou novo registro (Res. Alberto)</td>
+                        <td className="px-4 py-2 text-slate-500">Há 10 min</td>
+                    </tr>
+                     <tr>
+                        <td className="px-4 py-2">Dr. Roberto</td>
+                        <td className="px-4 py-2">Visualizou relatório de saúde</td>
+                        <td className="px-4 py-2 text-slate-500">Há 45 min</td>
+                    </tr>
+                </tbody>
+           </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [residents, setResidents] = useState<Resident[]>([]);
   const [logs, setLogs] = useState<DailyLog[]>([]);
@@ -303,6 +395,7 @@ function App() {
           <Route path="/residents" element={<ResidentList residents={residents} />} />
           <Route path="/residents/:id" element={<ResidentDetail residents={residents} logs={logs} addLog={addLog} />} />
           <Route path="/activities" element={<Activities residents={residents} />} />
+          <Route path="/admin" element={<AdminPanel />} />
           <Route path="/health" element={<div className="text-center text-slate-500 mt-20">Módulo de análise global de saúde em desenvolvimento.</div>} />
         </Routes>
       </Layout>
