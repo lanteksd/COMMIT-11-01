@@ -1,0 +1,7 @@
+{
+  "name": "VidaCare ILPI Manager",
+  "description": "Sistema de gestão integral para Instituições de Longa Permanência para Idosos (ILPI), focado no monitoramento de saúde, gestão de residentes e insights assistidos por IA.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
